@@ -1,4 +1,4 @@
 virtualEye
 ==========
 
-An OpenCV based project to help the visually challenged navigate.
+An OpenCV based application to help the visually challenged to navigate.
