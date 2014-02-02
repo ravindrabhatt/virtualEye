@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 using namespace cv;
 using namespace std;
@@ -114,7 +115,7 @@ void addDataKernel(kernelBlock *block, int sx, int sy, int len, int wid){
 void findPath(Mat dst, int passes){ 
     int length = (4 * dst.cols) / 13;
     int width = (1 * dst.rows) / 3;
-    int sumLowest = 0;
+    int sumLowest = INT_MAX, sum;
 
     kernelBlock *current = new kernelBlock();
     addDataKernel(current, 0, dst.rows - width - 1, length, width);
@@ -123,7 +124,7 @@ void findPath(Mat dst, int passes){
     kernelBlock *rem = NULL, *add = NULL;
 
     //find sum of starting kernelBlock
-    sumLowest = sumRange(dst, current);
+    sum = sumRange(dst, current);
     
     while(1){
 
@@ -141,7 +142,7 @@ void findPath(Mat dst, int passes){
         if( ( add->startx + 2 ) >= (dst.cols - length))
             break;
 
-        int sum = sumLowest - sumRange(dst, rem) + sumRange(dst, add) ;
+        sum = sum - sumRange(dst, rem) + sumRange(dst, add) ;
 
         if(sum < sumLowest){
             sumLowest = sum;
