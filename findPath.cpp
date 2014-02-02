@@ -112,7 +112,7 @@ void addDataKernel(kernelBlock *block, int sx, int sy, int len, int wid){
 /* @function findPath */
 
 void findPath(Mat dst, int passes){ 
-    int length = (3 * dst.cols) / 7;
+    int length = (4 * dst.cols) / 13;
     int width = (1 * dst.rows) / 3;
     int sumLowest = 0;
 
@@ -138,7 +138,7 @@ void findPath(Mat dst, int passes){
         addDataKernel(add, current->startx + length , current->starty , 2, width);
 
         //breaking condition
-        if(rem->startx >= (dst.cols - length))
+        if( ( add->startx + 2 ) >= (dst.cols - length))
             break;
 
         int sum = sumLowest - sumRange(dst, rem) + sumRange(dst, add) ;
