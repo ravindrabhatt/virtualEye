@@ -14,7 +14,7 @@ int const max_BINARY_value = 255;
 Mat src, frame; 
 Mat src_gray;
 Mat des;
-int thresh1 = 100, thresh2 = 100;
+int thresh1 = 66, thresh2 = 46;
 int max_thresh = 255;
 RNG rng(12345);
 //storage for path area
@@ -88,6 +88,7 @@ void thresh_callback(int, void* )
 
     //store final result
     des = drawing.clone();
+    imshow("edges", des);
   
 }
  
@@ -96,7 +97,7 @@ int sumRange(Mat dst, kernelBlock *block){
     int sum = 0;
     for(int i = block->startx; i < block->startx + block->length; i++){
         for(int j = block->starty; j < dst.rows; j++){
-            sum += dst.at<uchar>(i, j);
+            sum += dst.at<uchar>(j, i);
         }
     }
     return sum; 
@@ -139,7 +140,7 @@ void findPath(Mat dst, int passes){
         addDataKernel(add, current->startx + length , current->starty , 2, width);
 
         //breaking condition
-        if( ( add->startx + 2 ) >= (dst.cols - length))
+        if( ( add->startx + 2 ) >= (dst.cols))
             break;
 
         sum = sum - sumRange(dst, rem) + sumRange(dst, add) ;
